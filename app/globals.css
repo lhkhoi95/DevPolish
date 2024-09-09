@@ -6,6 +6,13 @@ body {
   font-family: var(--font-sans);
 }
 
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+}
+
 /* Emerald */
 @layer base {
   :root {
