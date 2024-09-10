@@ -6,7 +6,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function analyzeResume(extractedText) {
+export async function analyzeResume(extractedText: string | null) {
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -15,6 +15,11 @@ export async function analyzeResume(extractedText) {
           role: "system",
           content:
             "You are an expert resume analyzer. Your task is to analyze the given resume text and provide scores, feedback, and real examples for improvement for each section in JSON format.",
+        },
+        {
+          role: "user",
+          content:
+            "If you don't see clickable links but you see something like  'Linkedin', 'GitHub', and 'Portfolio' in the resume, just consider them as links.",
         },
         {
           role: "user",
@@ -65,7 +70,7 @@ ${extractedText}`,
 
     let analysis;
     try {
-      analysis = JSON.parse(response.choices[0].message.content);
+      analysis = JSON.parse(response.choices[0].message.content || "");
     } catch (parseError) {
       console.error("Error parsing JSON response:", parseError);
       throw new Error("Failed to parse the analysis result");
@@ -93,6 +98,6 @@ ${extractedText}`,
     return analysis;
   } catch (error) {
     console.error("Error analyzing resume:", error);
-    throw new Error("Failed to analyze resume: " + error.message);
+    throw new Error("Failed to analyze resume: " + (error as Error).message);
   }
 }

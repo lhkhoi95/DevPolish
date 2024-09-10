@@ -14,15 +14,7 @@ import {
 } from "@/components/ui/accordion";
 import ResumeAnalysisChart from "./ResumeAnalysisChart";
 
-interface AnalysisSection {
-  score: number;
-  feedback: string;
-  examples: string[];
-}
 
-interface AnalysisData {
-  [key: string]: AnalysisSection;
-}
 
 interface ResumeAnalysisProps {
   analysis: AnalysisData;
@@ -31,13 +23,6 @@ interface ResumeAnalysisProps {
 export default function ResumeAnalysis({ analysis }: ResumeAnalysisProps) {
   return (
     <Card className="w-full my-8">
-      <CardHeader>
-        <CardTitle>Resume Analysis</CardTitle>
-        <CardDescription>
-          Scores, feedback, and real examples for improvement for each section
-          of your resume
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         <ResumeAnalysisChart analysis={analysis} />
         <Accordion type="single" collapsible className="w-full">

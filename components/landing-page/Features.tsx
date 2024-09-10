@@ -9,9 +9,8 @@ export default function Features() {
         <section className="h-fit min-h-screen w-full flex relative items-center justify-center p-8 overflow-hidden">
             <Image
                 src="/whirl.svg"
-                layout="fill"
-                objectFit="cover"
-                className="sm:rotate-90 opacity-50"
+                fill
+                className="sm:rotate-90 opacity-50 object-cover"
                 alt="Background Whirl"
             />
 

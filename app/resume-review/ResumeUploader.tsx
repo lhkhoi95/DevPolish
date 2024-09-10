@@ -7,14 +7,15 @@ import { API_ENDPOINTS } from "@/lib/constants";
 import { analyzeResume } from "@/actions/analyze-resume";
 import ResumeAnalysis from "./ResumeAnalysis";
 
+
 const fileTypes = ["pdf"];
 
 export default function ResumeUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadingError, setUploadingError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<any>(null);
-  const [resumeText, setResumeText] = useState(null);
+  const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
+  const [resumeText, setResumeText] = useState<string | null>(null);
 
   const handleChange = async (file: File) => {
     setFile(file);
@@ -23,17 +24,23 @@ export default function ResumeUploader() {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(API_ENDPOINTS.PDF_READER, {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/pdf-to-text", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+
+      const data = await res.json();
+      setResumeText(data.text);
+    } catch (error) {
+      console.error("Error calling PDF2TEXT API:", error);
+      setUploadingError("Error processing PDF");
     }
-
-    const data = await response.json();
-    setResumeText(data.extracted_text);
   };
 
   const handleReview = async () => {
