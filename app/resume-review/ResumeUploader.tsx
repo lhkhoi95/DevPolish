@@ -13,7 +13,6 @@ const fileTypes = ["pdf"];
 export default function ResumeUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadingError, setUploadingError] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
   const [resumeText, setResumeText] = useState<string | null>(null);
