@@ -56,6 +56,7 @@ export function Navbar() {
                     </SignInButton>
                 )}
 
+
                 {isSignedIn ? (
                     <DropdownMenu open={isUserMenuOpen} onOpenChange={setIsUserMenuOpen}>
                         <DropdownMenuTrigger asChild>

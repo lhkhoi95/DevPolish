@@ -15,7 +15,6 @@ export default function ResumeUploader() {
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<any>(null);
   const [resumeText, setResumeText] = useState(null);
-  const [isCoverLetterModalOpen, setIsCoverLetterModalOpen] = useState(false);
 
   const handleChange = async (file: File) => {
     setFile(file);
