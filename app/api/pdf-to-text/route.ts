@@ -1,26 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import PDFParser from "pdf2json";
 
-export const config = {
-  api: {
-    bodyParser: false,
-    responseLimit: "8mb",
-  },
-};
-
 export async function POST(req: NextRequest) {
   const formData: FormData = await req.formData();
   const uploadedFile = formData.get("file");
   let parsedText = "";
 
   if (uploadedFile instanceof File) {
-    if (uploadedFile.size > 8 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "File size exceeds 8MB limit" },
-        { status: 400 }
-      );
-    }
-
     const pdfParser = new (PDFParser as any)(null, 1);
 
     // Wrap the parsing logic in a Promise

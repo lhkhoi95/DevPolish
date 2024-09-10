@@ -13,19 +13,29 @@ const fileTypes = ["pdf"];
 export default function ResumeUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadingError, setUploadingError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
   const [resumeText, setResumeText] = useState<string | null>(null);
 
   const handleChange = async (file: File) => {
-    setFile(file);
+    setFile(null);
     setUploadingError(null);
     setAnalysis(null);
+
+    // Check file size
+    const maxSizeInBytes = 8 * 1024 * 1024; // 8 MB
+    if (file.size > maxSizeInBytes) {
+      setUploadingError("File size exceeds 8 MB limit");
+      return;
+    }
+
+    setFile(file);
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const res = await fetch("/api/pdf-to-text", {
+      const res = await fetch(API_ENDPOINTS.PDF_READER, {
         method: "POST",
         body: formData,
       });
