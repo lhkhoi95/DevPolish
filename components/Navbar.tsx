@@ -11,6 +11,7 @@ import {
 import { SignInButton, useUser, useClerk } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import Image from "next/image";
+import { ROUTES } from "@/lib/constants";
 
 export function Navbar() {
     const { isSignedIn, user } = useUser();
@@ -37,13 +38,13 @@ export function Navbar() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="rounded border border-gray-700">
                             <DropdownMenuItem>
-                                <Link href="/resume-review" className="w-full">Resume Review</Link>
+                                <Link href={ROUTES.RESUME_REVIEW} className="w-full">Resume Review</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <Link href="/cover-letter" className="w-full">Cover Letter Generator</Link>
+                                <Link href={ROUTES.COVER_LETTER} className="w-full">Cover Letter Generator</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <Link href="/portfolio" className="w-full">Portfolio Generator</Link>
+                                <Link href={ROUTES.PORTFOLIO} className="w-full">Portfolio Generator</Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -70,9 +71,9 @@ export function Navbar() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="rounded border border-gray-700">
                             <DropdownMenuItem>
-                                <Link href="/profile" className="w-full">Profile</Link>
+                                <Link href={ROUTES.PROFILE} className="w-full">Profile</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onSelect={() => signOut()}>
+                            <DropdownMenuItem className="cursor-pointer" onSelect={() => signOut()}>
                                 Sign Out
                             </DropdownMenuItem>
                         </DropdownMenuContent>

@@ -34,7 +34,7 @@ export default function Header() {
                     </Button>
                 ) : (
                     <SignInButton mode="modal">
-                        <Button className="rounded">
+                        <Button className="rounded w-full">
                             Get Started
                             <ArrowRight className="ml-2" />
                         </Button>
