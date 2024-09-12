@@ -1,11 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { CircleCheck, FileText, Upload } from "lucide-react";
+import { CircleCheck, Upload } from "lucide-react";
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { API_ENDPOINTS } from "@/lib/constants";
-import { analyzeResume } from "@/actions/analyze-resume";
-import ResumeAnalysis from "./ResumeAnalysis";
 
 
 const fileTypes = ["pdf"];
