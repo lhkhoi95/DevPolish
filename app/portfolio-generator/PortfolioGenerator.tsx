@@ -12,7 +12,10 @@ export default function PortfolioGenerator() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
+
     const handleGeneratePortfolio = async () => {
+        setError(null);
+        setPortfolioHTML(null);
         setIsLoading(true);
         try {
             if (resumeText === null) {
@@ -30,11 +33,13 @@ export default function PortfolioGenerator() {
         }
     };
 
+
+
     return (
         <>
             <ResumeUploader onResumeTextChange={setResumeText} />
             {resumeText && <Button
-                className="w-full mt-4"
+                className="w-full mt-4 rounded"
                 onClick={handleGeneratePortfolio}
                 disabled={isLoading}
             >
@@ -42,7 +47,7 @@ export default function PortfolioGenerator() {
                 {isLoading ? "Generating..." : "Generate Portfolio"}
             </Button>}
             {portfolioHTML && <DisplayPortfolio portfolioHTML={portfolioHTML} />}
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
         </>
     );
 }

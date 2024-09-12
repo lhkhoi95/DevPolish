@@ -9,7 +9,7 @@ const openai = new OpenAI({
 export async function generatePortfolio(resumeText: string) {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o-mini-2024-07-18",
       messages: [
         {
           role: "system",
@@ -29,6 +29,8 @@ export async function generatePortfolio(resumeText: string) {
    - Use semantic HTML5 tags (header, nav, main, section, footer, etc.)
    - Include a responsive navigation menu
    - Create sections for: About, Experience, Education, Skills, and Projects
+   - For the Skills section, use badge tags with full rounded corners to display the skills.
+   - For the Heading, if there are no social links, display a placeholder text "Social Links: N/A".
 
 2. Content:
    - Extract and organize information from the resume text
@@ -36,9 +38,12 @@ export async function generatePortfolio(resumeText: string) {
    - List experiences, education, and projects in reverse chronological order
    - Create a skills section with a visually appealing layout (e.g., tags or progress bars)
 
-3. Design:
-   - Use a clean, modern design with a professional color scheme
-   - Do not use blue color.
+3. CSS Styling:
+   - Use a clean, modern design with a professional color scheme.
+   - Do not use blue color. Randomly pick one of the following color palette:
+      1) #181C14, #3C3D37, #697565, #ECDFCC.
+      2) #654520, #825B32, #6CBEC7, #81DAE3.
+      3) #343131, #A04747, #D8A25E, #EEDF7A.
    - Ensure the layout is responsive and works well on mobile devices
    - Include appropriate white space for readability
    - Use CSS Flexbox or Grid for layout
