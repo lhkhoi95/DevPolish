@@ -28,7 +28,7 @@ export default function ResumeUploader({ onResumeTextChange }: ResumeUploaderPro
     if (progress === 100) {
       onResumeTextChange(resumeText);
     }
-  }, [progress]);
+  }, [progress, resumeText, onResumeTextChange]);
 
   const handleChange = async (file: File) => {
     setFile(null);

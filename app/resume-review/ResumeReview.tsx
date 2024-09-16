@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { analyzeResume } from "@/actions/analyze-resume";
@@ -12,10 +12,10 @@ export default function ResumeReview() {
     const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
     const [resumeText, setResumeText] = useState<string | null>(null);
 
-    const handleResumeTextChange = (text: string | null) => {
+    const handleResumeTextChange = useCallback((text: string | null) => {
         setResumeText(text);
         setAnalysis(null);
-    };
+    }, []);
 
     const handleReview = async () => {
         try {

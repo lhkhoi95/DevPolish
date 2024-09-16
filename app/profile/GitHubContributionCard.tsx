@@ -8,21 +8,21 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
     useEffect(() => {
         const fetchData = async () => {
             if (!githubUsername) return; // Ensure githubUsername is defined
-            let response = await fetch(
+            const response = await fetch(
                 `https://lengthylyova.pythonanywhere.com/api/gh-contrib-graph/fetch-data/?githubLogin=${githubUsername}`,
                 { method: 'GET' }
             );
-            let data = await response.json();
+            const data = await response.json();
             return data['data']['user'];
         };
 
         const initTable = (): [HTMLTableElement, HTMLTableSectionElement, HTMLTableSectionElement] => {
-            let table = document.createElement('table');
+            const table = document.createElement('table');
             table.className = 'ghCalendarTable';
-            let thead = table.createTHead();
-            let tbody = table.createTBody();
-            let row = thead.insertRow();
-            let cell = row.insertCell();
+            const thead = table.createTHead();
+            const tbody = table.createTBody();
+            const row = thead.insertRow();
+            const cell = row.insertCell();
             cell.style.width = '28px';
             for (let i = 0; i < 7; i++) {
                 const row = tbody.insertRow();
@@ -46,8 +46,8 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             for (let i = 0; i < months.length; i++) {
                 const total_weeks = months[i]['totalWeeks'];
                 if (total_weeks >= 2) {
-                    let cell = thead.rows[0].insertCell();
-                    let label = document.createElement('span');
+                    const cell = thead.rows[0].insertCell();
+                    const label = document.createElement('span');
                     label.textContent = months[i]['name'];
                     label.className = 'ghCalendarLabel';
                     cell.appendChild(label);
@@ -56,7 +56,7 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             }
         };
 
-        const addWeeks = (tbody: HTMLTableSectionElement, weeks: { contributionDays: any[] }[], colors: any[]) => {
+        const addWeeks = (tbody: HTMLTableSectionElement, weeks: { contributionDays: any[] }[], _: string[]) => {
             for (let i = 0; i < weeks.length; i++) {
                 const days = weeks[i]['contributionDays'];
                 for (let j = 0; j < days.length; j++) {
@@ -85,12 +85,12 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             const colors = document.createElement('div');
             footer.className = 'ghCalendarCardFooter';
             colors.className = 'ghCalendarCardFooterColors';
-            let less = document.createElement('span');
+            const less = document.createElement('span');
             less.textContent = 'Less';
-            let more = document.createElement('span');
+            const more = document.createElement('span');
             more.textContent = 'More';
             colors.appendChild(less);
-            let levels = [
+            const levels = [
                 'NONE',
                 'FIRST_QUARTILE',
                 'SECOND_QUARTILE',
@@ -98,7 +98,7 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
                 'FOURTH_QUARTILE',
             ];
             for (let i = 0; i < 5; i++) {
-                let cell = document.createElement('div');
+                const cell = document.createElement('div');
                 cell.className = 'ghCalendarDayCell';
                 cell.dataset.level = levels[i];
                 colors.appendChild(cell);
@@ -114,7 +114,7 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             return canvas;
         };
 
-        const initHeader = (totalContribs: number, ghLogin: string, avatarUrl: string) => {
+        const initHeader = (totalContribs: number, ghLogin: string, _: string) => {
             const header = document.createElement('div');
             const total = document.createElement('span');
             const profile = document.createElement('div');
