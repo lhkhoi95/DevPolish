@@ -6,3 +6,10 @@ interface AnalysisSection {
   feedback: string;
   examples: string[];
 }
+
+interface UserData {
+  _id?: ObjectId;
+  githubUsername: string;
+  name: string;
+  resumeText?: string;
+}

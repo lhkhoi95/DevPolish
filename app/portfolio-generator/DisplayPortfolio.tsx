@@ -34,6 +34,7 @@ export default function DisplayPortfolio({ portfolioHTML }: { portfolioHTML: str
                 <div className="flex flex-wrap gap-2">
                     <Button
                         variant="secondary"
+                        className="rounded"
                         onClick={() => setIsEditing(!isEditing)}
                     >
                         {isEditing ? (
@@ -48,7 +49,7 @@ export default function DisplayPortfolio({ portfolioHTML }: { portfolioHTML: str
                             </>
                         )}
                     </Button>
-                    <Button onClick={handleDownload}>
+                    <Button onClick={handleDownload} className="rounded">
                         <Download className="w-4 h-4 mr-2" />
                         Download HTML
                     </Button>

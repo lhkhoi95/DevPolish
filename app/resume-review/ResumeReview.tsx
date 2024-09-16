@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { analyzeResume } from "@/actions/analyze-resume";
 import ResumeAnalysis from "./ResumeAnalysis";
-import ResumeUploader from "./ResumeUploader";
+import ResumeUploader from "../../components/ResumeUploader";
 
 export default function ResumeReview() {
     const [uploadingError, setUploadingError] = useState<string | null>(null);

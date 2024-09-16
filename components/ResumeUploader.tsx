@@ -1,9 +1,10 @@
 "use client";
-import { CircleCheck, Upload } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
+import { CircleCheck, Upload } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { API_ENDPOINTS } from "@/lib/constants";
-
+import { useUser } from "@clerk/nextjs";
 
 const fileTypes = ["pdf"];
 
@@ -14,11 +15,26 @@ interface ResumeUploaderProps {
 export default function ResumeUploader({ onResumeTextChange }: ResumeUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
   const [uploadingError, setUploadingError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [resumeText, setResumeText] = useState<string | null>(null);
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (progress > 0 && progress < 100) {
+      const timer = setTimeout(() => setProgress(prev => Math.min(prev + 10, 100)), 200);
+      return () => clearTimeout(timer);
+    }
+
+    if (progress === 100) {
+      onResumeTextChange(resumeText);
+    }
+  }, [progress]);
 
   const handleChange = async (file: File) => {
     setFile(null);
     setUploadingError(null);
     onResumeTextChange(null);
+    setProgress(0);
 
     // Check file size
     const maxSizeInBytes = 8 * 1024 * 1024; // 8 MB
@@ -28,6 +44,8 @@ export default function ResumeUploader({ onResumeTextChange }: ResumeUploaderPro
     }
 
     setFile(file);
+    setProgress(10); // Start progress
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -41,16 +59,38 @@ export default function ResumeUploader({ onResumeTextChange }: ResumeUploaderPro
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
+      setProgress(50); // Update progress
+
       const data = await res.json();
-      onResumeTextChange(data.text);
+      setResumeText(data.text);
+
+      // Store the extracted text to database
+      if (user?.username) {
+        const response = await fetch(API_ENDPOINTS.ADD_OR_UPDATE, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            githubUsername: user.username,
+            resumeText: data.text,
+          }),
+        });
+
+        await response.json();
+      }
+
+      setProgress(100); // Complete progress
+
     } catch (error) {
       console.error("Error calling PDF2TEXT API:", error);
       setUploadingError("Error processing PDF");
+      setProgress(0); // Reset progress on error
     }
   };
 
   return (
-    <div className="w-full max-w-full overflow-hidden">
+    <div className="w-full max-w-full overflow-hidden space-y-4">
       <FileUploader
         handleChange={handleChange}
         name="resume"
@@ -85,6 +125,12 @@ export default function ResumeUploader({ onResumeTextChange }: ResumeUploaderPro
           )}
         </div>
       </FileUploader>
+      {progress > 0 && progress < 100 && (
+        <div className="w-full">
+          <Progress value={progress} className="w-full" />
+          <p className="text-sm text-gray-500 mt-1 text-center">{progress}% uploaded</p>
+        </div>
+      )}
       {uploadingError && (
         <p className="text-red-500 text-center mt-4">{uploadingError}</p>
       )}

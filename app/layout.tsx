@@ -33,7 +33,7 @@ export default function RootLayout({
             elements: {
               footerAction: "hidden",
               footer: "hidden",
-            }
+            },
           }}
         >
           <ThemeProvider
@@ -46,7 +46,6 @@ export default function RootLayout({
             <Navbar />
 
             {children}
-
           </ThemeProvider>
         </ClerkProvider>
         <Analytics />

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Features() {
     return (
-        <section className="h-fit min-h-screen w-full flex relative items-center justify-center p-8 overflow-hidden">
+        <section className="h-fit min-h-screen w-full flex relative items-center justify-center p-8 overflow-hidden mb-56">
             <Image
                 src="/whirl.svg"
                 fill

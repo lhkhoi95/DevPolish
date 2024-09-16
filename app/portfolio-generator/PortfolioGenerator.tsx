@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import ResumeUploader from "../resume-review/ResumeUploader";
+import ResumeUploader from "../../components/ResumeUploader";
 import { Button } from "@/components/ui/button";
 import { BriefcaseBusiness } from "lucide-react";
 import { generatePortfolio } from "@/actions/portfolio-generator";

@@ -9,7 +9,7 @@ const openai = new OpenAI({
 export async function analyzeResume(extractedText: string | null) {
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       messages: [
         {
           role: "system",
@@ -23,7 +23,7 @@ export async function analyzeResume(extractedText: string | null) {
         },
         {
           role: "user",
-          content: `Analyze the following resume text and provide scores (out of 10), brief feedback, and real examples for improvement for each of these sections: Contact Information, Professional Summary, Work Experience, Education, Skills, and Overall Impression. If a section is missing, mention that in the feedback. Return the analysis in the following JSON format:
+          content: `Analyze the following resume text and provide scores (out of 10), brief feedback, and real examples for improvement for each of these sections: Contact Information, Professional Summary, Work Experience, Education, Skills, and Overall Impression. If a section is missing, provide a score of 0. Return the analysis in the following JSON format:
 
 {
   "Contact Information": {

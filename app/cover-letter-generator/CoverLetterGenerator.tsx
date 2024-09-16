@@ -1,5 +1,5 @@
 "use client";
-import ResumeUploader from "../resume-review/ResumeUploader";
+import ResumeUploader from "../../components/ResumeUploader";
 import { useState } from "react";
 import JobDescriptionGetter from "./JobDescriptionGetter";
 import { Button } from "@/components/ui/button";
