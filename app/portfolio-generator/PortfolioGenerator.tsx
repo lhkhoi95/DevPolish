@@ -24,7 +24,6 @@ export default function PortfolioGenerator() {
             }
             const generatedHTML = await generatePortfolio(resumeText);
             setPortfolioHTML(generatedHTML);
-            console.log("Portfolio HTML:", generatedHTML);
         } catch (error) {
             console.error("Error generating portfolio:", error);
             setError(error instanceof Error ? error.message : String(error));

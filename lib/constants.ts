@@ -11,5 +11,7 @@ export const ROUTES = {
   PROFILE: "/profile",
 };
 
-export const SPLINE_URL =
-  "https://prod.spline.design/jWAnUKwpumAKdkHj/scene.splinecode";
+export const SPLINE_URLS = {
+  ROCKET: "https://prod.spline.design/jWAnUKwpumAKdkHj/scene.splinecode",
+  PROFILE: "https://prod.spline.design/nKd5ErH84vAaiMi4/scene.splinecode",
+};

@@ -33,7 +33,7 @@ export async function addOrUpdateUser(userData: UserData) {
     const newUser = await usersCollection.findOne({
       _id: result.insertedId,
     });
-    console.log(`New user created with id: ${result.insertedId}`);
+    // console.log(`New user created with id: ${result.insertedId}`);
     return newUser; // Return the newly inserted user document
   } catch (error) {
     console.error("Error adding or updating user:", error);

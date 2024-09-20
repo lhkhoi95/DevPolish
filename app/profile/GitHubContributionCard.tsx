@@ -1,20 +1,44 @@
 'use client';
 
+import { Skeleton } from '@/components/ui/skeleton';
 import './gh.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [data, setData] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!githubUsername) return; // Ensure githubUsername is defined
-            const response = await fetch(
-                `https://lengthylyova.pythonanywhere.com/api/gh-contrib-graph/fetch-data/?githubLogin=${githubUsername}`,
-                { method: 'GET' }
-            );
-            const data = await response.json();
-            return data['data']['user'];
+            if (!githubUsername) {
+                setError('No GitHub username provided');
+                setIsLoading(false);
+                return;
+            }
+
+            setIsLoading(true);
+            setError(null);
+            try {
+                const response = await fetch(
+                    `https://lengthylyova.pythonanywhere.com/api/gh-contrib-graph/fetch-data/?githubLogin=${githubUsername}`,
+                    { method: 'GET' }
+                );
+                const result = await response.json();
+                setData(result['data']['user']);
+            } catch (error) {
+                console.error("Error fetching GitHub data:", error);
+                setError(error instanceof Error ? error.message : String(error));
+            } finally {
+                setIsLoading(false);
+            }
         };
+
+        fetchData();
+    }, [githubUsername]);
+
+    useEffect(() => {
+        if (!data) return;
 
         const initTable = (): [HTMLTableElement, HTMLTableSectionElement, HTMLTableSectionElement] => {
             const table = document.createElement('table');
@@ -126,18 +150,16 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             return header;
         };
 
-        const main = async () => {
+        const renderGraph = () => {
             const container = document.getElementById('gh');
-            if (!container) return; // Ensure container is not null
-            const ghLogin = container.dataset.login;
-            const data = await fetchData();
+            if (!container) return;
             const calendar = data['contributionsCollection']['contributionCalendar'];
             const [table, thead, tbody] = initTable();
             const card = initCard();
             const canvas = initCanvas();
             const header = initHeader(
                 calendar['totalContributions'],
-                ghLogin!,
+                githubUsername!,
                 data['avatarUrl']
             );
             const footer = initCardFooter();
@@ -152,11 +174,27 @@ const GitHubContribGraph = ({ githubUsername }: { githubUsername?: string }) => 
             container.appendChild(card);
         };
 
-        main();
-    }, [githubUsername]);
+        renderGraph();
+    }, [data, githubUsername]);
+
+    if (isLoading) {
+        return (
+            <div className="pt-1 rounded-xl text-muted-foreground flex flex-col items-center justify-center min-h-48 w-full overflow-x-auto space-y-4">
+                <div className='flex justify-between w-[95%]'>
+                    <Skeleton className="h-6 w-48" />
+                    <Skeleton className="h-6 w-24" />
+                </div>
+                <Skeleton className="h-[200px] w-[95%]" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return <div className="text-red-500">Error: {error}</div>;
+    }
 
     return (
-        <div className="border pt-1 rounded-xl text-muted-foreground flex items-center justify-center min-h-screen overflow-x-auto">
+        <div className="pt-1 rounded-xl text-muted-foreground flex items-start justify-start min-h-48 w-full mt-8">
             <div id="gh" data-login={githubUsername}></div>
         </div>
     );

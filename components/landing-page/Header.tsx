@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import Spline from "@splinetool/react-spline";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { SPLINE_URL } from "@/lib/constants";
+import { SPLINE_URLS } from "@/lib/constants";
 
 export default function Header() {
     const { isSignedIn } = useUser();
@@ -47,7 +47,7 @@ export default function Header() {
             <div className="w-full h-[650px]">
                 <Spline
                     className="w-full h-full pointer-events-none rounded-2xl"
-                    scene={SPLINE_URL}
+                    scene={SPLINE_URLS.ROCKET}
                 />
             </div>
         </header>
