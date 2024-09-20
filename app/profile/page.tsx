@@ -1,7 +1,6 @@
 import GitHubContributionGraph from "./GitHubContributionCard";
 import { currentUser } from "@clerk/nextjs/server";
 import { retrieveUser } from "@/mongodb/user";
-import Image from "next/image";
 import Spline from "@splinetool/react-spline";
 import { SPLINE_URLS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -9,8 +8,7 @@ import { Button } from "@/components/ui/button";
 export default async function Page() {
     const user = await currentUser();
     const userData = await retrieveUser(user?.username || "");
-    const avatar = user?.imageUrl;
-
+    // const avatar = user?.imageUrl;
 
     return (
         <div className="container mx-auto">
